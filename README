@@ -1,0 +1,26 @@
+## 8/13/2024 07:20 AM
+The first thing I need to do is to figure out how to programmatically take screenshots. Surely there is some syscall that I can use, but how dependent on the specific OS will it be?
+WHO CARES -> THIS IS A POC. IT ONLY NEEDS TO WORK ON MY MACHINE.
+
+## 8/13/2024 07:44 AM
+Sweet, we got screenshots working, and we got the popups working.
+Next steps:
+- [x] Get LLM to identify current activity based on the screenshot
+- [x] Get LLM to identify whether user is off task based on the screenshot and their stated goal
+- [x] Cronjob POC
+- [x] Put it all together
+
+## 8/14/2024 07:48 AM
+It seems to be a bit too sensitive. If I'm doing sommething tangentially on task, it'll trigger the popup. I need to figure out how to make it less sensitive.
+
+Maybe I take a few samples over a period relative to a task and then use that to determine if the user is on task or not.
+
+Honestly, I tried just being more specific with my task description, and it solved the problem.
+
+Next steps:
+- [ ] Take a few samples over a period relative to a task and then use that to determine if the user is on task or not. (*IN SCOPE FOR DEMO*)
+- [ ] Design scoreboard system for user to track their score and share with others
+- [ ] Figure out how to package up the app in a way that is easy for nontechnical people to use
+- [ ] Make CLI version of the app nice (*IN SCOPE FOR DEMO*)
+- [ ] Explore open source alternatives to gpt-4o-mini (*IN SCOPE FOR DEMO*)
+- [ ] Write tests (*IN SCOPE FOR DEMO*)

@@ -17,6 +17,7 @@ def check_user_activity():
         description = describe_current_activity(base64_screenshot)
 
         print(f"Current Goal     : {current_goal}")
+        print(f"Current Screenshot : {description}")
     
         if not is_user_on_task(description, current_goal):
             show_disruptive_notification("Hey! Shithead!", "You're a little neurodivergent pigboy who likes to play in the mud. Are you done fucking around? Are you ready to get back to work now?", "Sorry, I'll focus now")
