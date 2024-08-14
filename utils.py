@@ -5,6 +5,10 @@ import base64
 from openai import OpenAI
 import os
 from dotenv import load_dotenv
+import mss
+import mss.tools
+from PIL import Image
+import subprocess
 
 load_dotenv()
 
@@ -130,6 +134,19 @@ def is_user_on_task(activity_description: str, goal: str) -> bool:
 
     content_str = response.choices[0].message.content
     content_dict = json.loads(content_str)
-    print(f"ON_TASK           : {content_dict['on_task']}")
-    print(f"JUSTIFICATIOn     : {content_dict['justification']}")
     return content_dict["on_task"]
+
+def take_screenshot() -> Image.Image:
+    with mss.mss() as sct:
+        screenshot = sct.grab(sct.monitors[0])
+        pil_image = Image.frombytes("RGB", screenshot.size, screenshot.rgb)
+        return pil_image
+
+def show_disruptive_notification(title, message, ok_button="OK"):
+    script = f'''
+    tell application "System Events"
+        activate
+        display dialog "{message}" with title "{title}" buttons {{"{ok_button}"}} default button 1 with icon caution
+    end tell
+    '''
+    subprocess.run(["osascript", "-e", script])

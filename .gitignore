@@ -23,7 +23,8 @@ dist/
 Thumbs.db
 
 # Project-specific
-screenshots/
+screenshot/
+.log/
 *.log
 
 # Potentially sensitive information
