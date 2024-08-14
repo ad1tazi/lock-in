@@ -2,7 +2,7 @@ import json
 from PIL import Image
 from io import BytesIO
 import base64
-from openai import OpenAI
+from openai import AsyncOpenAI
 import os
 from dotenv import load_dotenv
 import mss
@@ -14,7 +14,7 @@ load_dotenv()
 
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 
-openai = OpenAI(api_key=OPENAI_API_KEY)
+openai = AsyncOpenAI(api_key=OPENAI_API_KEY)
 
 DESCRIBE_SCREEN_PROMPT_START = """You will be given a screenshot of a computer screen. Your task is to provide an extremely detailed description of what appears to be happening on the screen and what the user seems to be doing.
 
@@ -92,8 +92,8 @@ def convert_image_to_base64(image: Image.Image) -> str:
     
     return img_str
 
-def describe_current_activity(frame: str) -> str:
-    response = openai.chat.completions.create(
+async def describe_current_activity(frame: str) -> str:
+    response = await openai.chat.completions.create(
         model="gpt-4o-mini",
         messages=[
             {
@@ -119,9 +119,9 @@ def describe_current_activity(frame: str) -> str:
     )
     return response.choices[0].message.content
 
-def is_user_on_task(activity_description: str, goal: str) -> bool:
+async def is_user_on_task(activity_description: str, goal: str) -> bool:
     prompt = ON_TASK_PROMPT_START + activity_description + ON_TASK_PROMPT_MIDDLE + goal + ON_TASK_PROMPT_END
-    response = openai.chat.completions.create(
+    response = await openai.chat.completions.create(
         model="gpt-4o-mini",
         response_format={"type": "json_object"},
         messages=[
